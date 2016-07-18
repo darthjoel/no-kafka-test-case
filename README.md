@@ -1,0 +1,1 @@
+# no-kafka-test-case

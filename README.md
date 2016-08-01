@@ -10,6 +10,22 @@ to [_mapTopics](https://github.com/oleksiyk/kafka/blob/master/lib/client.js#L57)
 2.7-32secs with the test fetch responses included in this project.  The node event loop cannot be blocked for that long
 or the consumer heartbeat requests not be sent on time.
 
+## Update 8/1/2016
+
+This issue has been resolved by:
+
+1. Moving to Node 4.x because lodash's merge() function, which is used by the no-kafka
+ library during decoding, is very slow under Node 0.10 but gets much faster under Node 4.x
+1. Reducing fetch size from 13MB to 4MB.  Decoding time is obviously proportional to fetch response size.
+
+I noticed during testing that message size also effects decoding time.  A 1MB fetch response with 16b messages is
+decoded significantly slower than a 1MB fetch response with 1K message size.  The bottom line is that you need to
+monitor event loop lag when using a high level consumer (really any Node process that has any real time requirements)
+because if something like decoding blocks the event loop for too long then the consumers will infinitely rebalance.
+
+Note a worthwhile future enhancement to the no-kafka library is to make all decoding async which would avoid this
+types of issues.  However if you use the default fetch size 1MB, you shouldn't run into any issues.
+
 ## Running this test
     node index.js
     

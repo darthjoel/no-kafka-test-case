@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/darthjoel/no-kafka-test-case#readme",
   "dependencies": {
+    "lodash": "4.5.0",
     "no-kafka": "2.5.6"
   }
 }

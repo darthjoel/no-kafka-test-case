@@ -15,12 +15,30 @@ var myProtocol = new Protocol({
 
 fs.readFile('fetch_response_1mb', function (err, data) {
   if (err) throw err;
-  var label = "1MB";
+  var label = "1MB (16b messages)";
   var topics = readTopicsFromBuffer(data, label);
   _mapTopics(topics, label);
+  fs.readFile('fetch_response_1.2mb', function (err, data) {
+    if (err) throw err;
+    var label = "1.2MB (1K messages)";
+    var topics = readTopicsFromBuffer(data, label);
+    _mapTopics(topics, label);
+  });
+  fs.readFile('fetch_response_4mb', function (err, data) {
+    if (err) throw err;
+    var label = "4MB (1K messages)";
+    var topics = readTopicsFromBuffer(data, label);
+    _mapTopics(topics, label);
+  });
   fs.readFile('fetch_response_6mb', function (err, data) {
     if (err) throw err;
-    var label = "6MB";
+    var label = "6MB (16b messages)";
+    var topics = readTopicsFromBuffer(data, label);
+    _mapTopics(topics, label);
+  });
+  fs.readFile('fetch_response_14mb', function (err, data) {
+    if (err) throw err;
+    var label = "14MB (16b messages)";
     var topics = readTopicsFromBuffer(data, label);
     _mapTopics(topics, label);
   });
@@ -49,6 +67,7 @@ function _mapTopics(topics, label) {
           _.omit(p, 'partition')
           /*function (_a, b) {if (b instanceof Buffer) {return b;}}*/) // fix for lodash _merge in Node v4: https://github.com/lodash/lodash/issues/1453
       );
+
     });
     return;
   }, []).value();

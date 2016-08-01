@@ -23,8 +23,8 @@ decoded significantly slower than a 1MB fetch response with 1K message size.  Th
 monitor event loop lag when using a high level consumer (really any Node process that has any real time requirements)
 because if something like decoding blocks the event loop for too long then the consumers will infinitely rebalance.
 
-Note a worthwhile future enhancement to the no-kafka library is to make all decoding async which would avoid this
-types of issues.  However if you use the default fetch size 1MB, you shouldn't run into any issues.
+Note a worthwhile future enhancement to the no-kafka library is to make all decoding async which would minimize the
+ impact on event loop lag.  However if you use the default fetch size 1MB, you shouldn't run into any issues.
 
 ## Running this test
     node index.js
